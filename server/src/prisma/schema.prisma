@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model representing citizens and government officials
+model User {
+  id              Int      @id @default(autoincrement())
+  email           String   @unique
+  password        String
+  confirmPassword String
+  name            String
+  phone           String?
+  role            UserRole @default(CITIZEN)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  complaints  Complaint[]  @relation("UserComplaints")
+  responses   Response[]   @relation("UserResponses")
+  agencyStaff AgencyStaff?
+  Attachment  Attachment[]
+}
+
+enum UserRole {
+  CITIZEN
+  AGENCY_STAFF
+  ADMIN
+}
+
+// Government Agency model
+model Agency {
+  id           Int      @id @default(autoincrement())
+  name         String
+  description  String?
+  contactEmail String
+  contactPhone String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  categories Category[]
+  complaints Complaint[]
+  staff      AgencyStaff[]
+}
+
+// Agency Staff relation table
+model AgencyStaff {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  agencyId  Int
+  position  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agency Agency @relation(fields: [agencyId], references: [id])
+}
+
+// Categories for complaints
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  agencyId    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  agency     Agency      @relation(fields: [agencyId], references: [id])
+  complaints Complaint[]
+}
+
+// Complaint model
+model Complaint {
+  id           Int               @id @default(autoincrement())
+  title        String
+  description  String
+  location     String?
+  status       ComplaintStatus   @default(SUBMITTED)
+  priority     ComplaintPriority @default(MEDIUM)
+  currentLevel ComplaintLevel    @default(LEVEL_1)
+  userId       Int
+  categoryId   Int
+  agencyId     Int
+  referenceId  String            @unique @default(uuid())
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  // Relations
+  user        User         @relation("UserComplaints", fields: [userId], references: [id])
+  category    Category     @relation(fields: [categoryId], references: [id])
+  agency      Agency       @relation(fields: [agencyId], references: [id])
+  responses   Response[]
+  attachments Attachment[]
+}
+
+enum ComplaintStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  RESPONDED
+  ESCALATED
+  RESOLVED
+}
+
+enum ApprovalStatus {
+  APPROVED
+  PENDING
+  REJECTED
+  AUTOREJECTED
+}
+
+enum ComplaintPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ComplaintLevel {
+  LEVEL_1
+  LEVEL_2
+}
+
+// Responses to complaints
+model Response {
+  id                 Int      @id @default(autoincrement())
+  content            String
+  userId             Int
+  complaintId        Int  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  isOfficialResponse Boolean  @default(false)
+
+  // Relations
+  user      User      @relation("UserResponses", fields: [userId], references: [id])
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+}
+
+// Attachments for complaints
+model Attachment {
+  id          Int      @id @default(autoincrement())
+  fileName    String
+  fileType    String
+  fileUrl     String
+  complaintId Int
+  uploadedBy  Int
+  createdAt   DateTime @default(now())
+
+  // Relations
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [uploadedBy], references: [id])
+}
