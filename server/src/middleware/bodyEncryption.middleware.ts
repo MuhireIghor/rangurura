@@ -1,4 +1,4 @@
-import Utils from '../utils/index';
+import Utils from "../utils/index";
 
 /**
  * Decrypt the body with encrypted payload and mutate the body with a plain json object
@@ -9,6 +9,9 @@ import Utils from '../utils/index';
  */
 export default (req, res, next) => {
   try {
+    if (req.method === "GET") {
+      return next();
+    }
     const { body, headers } = req;
     const { encryption } = headers;
     const { payload } = body;
@@ -20,7 +23,7 @@ export default (req, res, next) => {
           req.body = decrypted;
         } else {
           throw new Error(
-            "Please wrap the entire body of your requests in an object with 'payload' as key and encrypted string as value",
+            "Please wrap the entire body of your requests in an object with 'payload' as key and encrypted string as value"
           );
         }
       }
