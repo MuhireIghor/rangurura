@@ -9,6 +9,7 @@ import helmet from "helmet";
 import requestLogger, { loggerFormat } from "./utils/request-logger.utils";
 import { corsOptions } from "./utils/variables";
 import cors from "cors";
+import bodyEncryption from "./middleware/bodyEncryption.middleware";
 const appLogger = logger("app");
 
 config();
@@ -27,6 +28,7 @@ app.use(morgan(loggerFormat, { stream: requestLogger.stream }));
 app.use(helmet())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(bodyEncryption)
 app.use("/api/v1", appRoutes);
 app.use("/api/v1", errorHandler);
 export default app;
