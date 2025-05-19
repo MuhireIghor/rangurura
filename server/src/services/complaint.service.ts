@@ -34,7 +34,12 @@ export class ComplaintService {
     return prisma.complaint.findUnique({
       where: { id },
       include: {
-        user: true,
+        user: {
+          omit:{
+            confirmPassword:true,
+            password:true
+          }
+        },
         agency: true,
         category: true,
         attachments: true,
@@ -58,29 +63,39 @@ export class ComplaintService {
     return prisma.complaint.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
-      include:{
-        responses:{
-          include:{
-            user:true
-          }
-        }
-      }
+      include: {
+        responses: {
+          include: {
+            user: {
+              omit: {
+                confirmPassword: true,
+                password:true
+              },
+            },
+          },
+        },
+      },
     });
   }
 
   static async getAll() {
     return prisma.complaint.findMany({
       orderBy: { createdAt: "desc" },
-      include:{
-        agency:true,
-        category:true,
-        user:true,
-        responses:{
-          include:{
-            user:true
-          }
-        }
-      }
+      include: {
+        agency: true,
+        category: true,
+        user: true,
+        responses: {
+          include: {
+            user: {
+              omit: {
+                confirmPassword: true,
+                password:true
+              },
+            },
+          },
+        },
+      },
     });
   }
 

@@ -103,8 +103,17 @@ export class AuthService {
         select:{
           agency:true
         }
-      }
-    }});
+      },
+
+    },
+    omit:{
+      confirmPassword:true,
+      password:true
+    }
+  },
+  
+  
+);
     if (!user) {
       throw new Error('User not found');
     }

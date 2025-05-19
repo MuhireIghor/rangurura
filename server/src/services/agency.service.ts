@@ -45,7 +45,12 @@ export class AgencyService {
         complaints: true,
         staff: {
           include: {
-            user: true
+            user: {
+              omit:{
+                confirmPassword:true,
+                password:true
+              }
+            }
           }
         }
       }
