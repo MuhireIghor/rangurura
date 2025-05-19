@@ -8,7 +8,6 @@ export type UserDto = {
     
 }
 export type AgencyStaffUserDto = UserDto & {
-    role:"AGENCY_STAFF"|"ADMIN"|"CITIZEN";
     agencyId:number;
     userId:number;
     position:string;

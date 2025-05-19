@@ -76,5 +76,24 @@ class AuthController {
         }
     }
 
+    static async getUserProfile (req,res,next):Promise<any>{
+        try{
+            const {email} = req.params;
+            const response = await AuthService.fetchProfile(email);
+            authLogger.info(response);
+            return ResponseService.handleSuccessResponse(
+                httpStatus.OK,
+                "Successfully Fetched User Profile",
+                response,
+                res
+            )
+
+        }
+        catch(error){
+            next(error)
+        }
+    }
+    
+
 }
 export default AuthController;

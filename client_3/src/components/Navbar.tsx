@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Menu, X } from "lucide-react";
 import Logo from "./atoms/Logo";
+import { decodeToken } from "utils/auth";
+import { useAppDispatch } from "../redux/store";
+import { getUserProfile } from "../redux/slices/auth";
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = useSelector(({ auth }: { auth: any }) => ({
-    user: auth.user,
+  const { profile } = useSelector(({ auth }: { auth: any }) => ({
+    profile: auth.profile
   }));
 
   const toggleMenu = () => {
@@ -18,9 +22,18 @@ const Navbar = () => {
   };
 
   const getDashboardLink = () => {
-    if (!user) return "/auth/login";
-    return user?.role === "CITIZEN" ? "/citizen/dashboard" : "/admin/dashboard";
+    if (!profile) return "/auth/login";
+    return profile?.role === "CITIZEN" ? "/citizen/dashboard" : "/admin/dashboard";
   };
+  useEffect(()=>{
+
+    const data = decodeToken();
+    if(data){
+      dispatch(getUserProfile(data.email))
+
+    }
+    
+  },[])
 
   return (
     <header className="bg-white border-b border-border-gray">
@@ -57,7 +70,7 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            {user ? (
+            {profile && Object.keys(profile).length > 0 ? (
               <Link
                 to={getDashboardLink()}
                 className="bg-primary text-white px-4 py-2 rounded-md hover:bg-secondary transition-colors"
@@ -126,7 +139,7 @@ const Navbar = () => {
             </nav>
 
             <div className="flex flex-col space-y-3">
-              {user ? (
+              {profile ? (
                 <Link
                   to={getDashboardLink()}
                   className="bg-primary text-white px-4 py-2 rounded-md text-center hover:bg-secondary transition-colors"

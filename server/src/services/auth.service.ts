@@ -5,9 +5,6 @@ import { UserRole } from "@prisma/client"
 import TokenService from './token.service';
 
 
-// Replace with a secure secret (store in .env)
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here';
-
 export class AuthService {
   static async register(data: {
     email: string;
@@ -98,6 +95,20 @@ export class AuthService {
     }
 
     return AuthService.generateToken(user);
+  }
+
+  static async fetchProfile (email:string){
+    const user = await prisma.user.findUnique({ where: { email } ,include:{
+      agencyStaff:{
+        select:{
+          agency:true
+        }
+      }
+    }});
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
   }
 
   static async getAllUsers(){

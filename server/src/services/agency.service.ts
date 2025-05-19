@@ -65,4 +65,18 @@ export class AgencyService {
     });
   }
 
+  static async deleteAgencyById(id: number) {
+    const agency = await prisma.agency.delete({
+      where: { id },
+    });
+    return agency;
+  }
+  static async updateAgency (agencyId:number,data:any){
+    const agency = await prisma.agency.update({
+      where: { id: agencyId },
+      data: data,
+    });
+    return agency;
+  }
+
 }

@@ -1,5 +1,4 @@
-"use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,15 +11,23 @@ import {
   Menu,
   Bell,
   X,
+  Loader,
 } from "lucide-react";
 import { useAppDispatch } from "../redux/store";
-import { logout } from "utils/auth";
+import { decodeToken, logout } from "utils/auth";
 import Logo from "components/atoms/Logo";
 import { toggleSidebar } from "../redux/slices/ui";
+import { getUserProfile } from "../redux/slices/auth";
+import { enumToCamelCase } from "utils";
 
 const CitizenLayout = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useSelector((state: any) => state.auth);
-  const { sidebarOpen } = useSelector(({ui}:{ui:any}) => ({sidebarOpen:ui.sidebarOpen}));
+  const { profile, loadingUserProfile } = useSelector(({ auth }: any) => ({
+    profile: auth.profile,
+    loadingUserProfile: auth.loadingUserProfile,
+  }));
+  const { sidebarOpen } = useSelector(({ ui }: { ui: any }) => ({
+    sidebarOpen: ui.sidebarOpen,
+  }));
   const dispatch = useAppDispatch();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,6 +35,10 @@ const CitizenLayout = ({ children }: { children: React.ReactNode }) => {
   const handleLogout = () => {
     logout();
   };
+  useEffect(() => {
+    const { email } = decodeToken();
+    dispatch(getUserProfile(email));
+  }, []);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -198,18 +209,23 @@ const CitizenLayout = ({ children }: { children: React.ReactNode }) => {
                 3
               </span>
             </button>
-
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
-                {user?.name?.charAt(0).toUpperCase() || "U"}
+            {loadingUserProfile ? (
+              <Loader />
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
+                  {profile?.name?.charAt(0).toUpperCase() || ""}
+                </div>
+                <div className="hidden md:block">
+                  <p className="text-sm font-medium text-black">
+                    {profile?.name || ""}
+                  </p>
+                  <p className="text-xs text-gray">
+                    {enumToCamelCase(profile.role)}
+                  </p>
+                </div>
               </div>
-              <div className="hidden md:block">
-                <p className="text-sm font-medium text-black">
-                  {user?.name || "User"}
-                </p>
-                <p className="text-xs text-gray">Citizen</p>
-              </div>
-            </div>
+            )}
           </div>
         </header>
 

@@ -1,31 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Home,
   FileText,
   Users,
-  BarChart,
   User,
   LogOut,
   Menu,
   Bell,
   X,
+  ShieldHalf,
+  Loader,
 } from "lucide-react";
-import { logout } from "utils/auth";
+import { decodeToken, logout } from "utils/auth";
 import { toggleSidebar } from "../redux/slices/ui";
 import Logo from "components/atoms/Logo";
+import { useAppDispatch } from "../redux/store";
+import { getUserProfile } from "../redux/slices/auth";
+import { enumToCamelCase } from "utils";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { profile, loadingUserProfile } = useSelector(({ auth }: any) => ({
+    profile: auth.profile,
+    loadingUserProfile: auth.loadingUserProfile,
+  }));
   const { sidebarOpen } = useSelector(({ ui }: { ui: any }) => ({
     sidebarOpen: ui.sidebarOpen,
   }));
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  useEffect(() => {
+    const { email } = decodeToken();
+    dispatch(getUserProfile(email));
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -36,6 +48,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    const { email } = decodeToken();
+    dispatch(getUserProfile(email));
+  }, []);
+
   const navItems = [
     { path: "/admin/dashboard", label: "Dashboard", icon: <Home size={20} /> },
     {
@@ -44,10 +61,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       icon: <FileText size={20} />,
     },
     { path: "/admin/users", label: "Users", icon: <Users size={20} /> },
+    { path: "/admin/agency", label: "Agencies", icon: <Users size={20} /> },
     {
-      path: "/admin/analytics",
-      label: "Analytics",
-      icon: <BarChart size={20} />,
+      path: "/admin/category",
+      label: "Categories",
+      icon: <ShieldHalf size={20} />,
     },
     { path: "/admin/profile", label: "My Profile", icon: <User size={20} /> },
   ];
@@ -142,7 +160,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               <path d="M2 12h10" />
               <path d="M12 12h10" />
             </svg>
-            <span className="font-bold text-primary">CitizenConnect</span>
+            <span className="font-bold text-primary">Rangurura</span>
           </NavLink>
           <button
             onClick={() => setMobileMenuOpen(false)}
@@ -216,18 +234,21 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 5
               </span>
             </button>
-
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
-                {user?.name?.charAt(0).toUpperCase() || "A"}
+            {loadingUserProfile ? (
+              <Loader />
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
+                  {profile?.name?.charAt(0).toUpperCase() || "A"}
+                </div>
+                <div className="hidden md:block">
+                  <p className="text-sm font-medium text-black">
+                    {profile?.name || "Admin"}
+                  </p>
+                  <p className="text-xs text-gray">{ enumToCamelCase(profile?.role)}</p>
+                </div>
               </div>
-              <div className="hidden md:block">
-                <p className="text-sm font-medium text-black">
-                  {user?.name || "Admin"}
-                </p>
-                <p className="text-xs text-gray">Administrator</p>
-              </div>
-            </div>
+            )}
           </div>
         </header>
 

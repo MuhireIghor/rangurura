@@ -14,9 +14,15 @@ const signUpAgency = (payload:AgencyStaffUserDto)=>{
 const getAllUsers = ()=>{
     return http.get(`/auth/all`);
 }
+
+const getUserProfile = (email:string)=>{
+    return http.get(`/auth/profile/${email}`);
+}
+
 export default {
     signup,
     login,
     signUpAgency,
-    getAllUsers
+    getAllUsers,
+    getUserProfile
 }

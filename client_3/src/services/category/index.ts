@@ -17,9 +17,14 @@ const getCategoryById = (id:string)=>{
     return http.get(`/category/all-categories/${id}`)
 }
 
+const deleteCategoryById = (id:string)=>{
+    return http.delete(`/category/${id}`)
+}
+
 export default {
     createCategory,
     getAllCategories,
     updateCategory,
-    getCategoryById
+    getCategoryById,
+    deleteCategoryById
 }

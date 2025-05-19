@@ -1,13 +1,12 @@
 import Logo from "components/atoms/Logo";
-import { Link } from "react-router-dom";
 
-const AuthLayout = ({children}: {children: React.ReactNode}) => {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left side - Branding and info */}
       <div className="hidden md:flex md:w-1/2 bg-primary p-8 text-white flex-col justify-between">
         <div>
-          <Logo className="text-white " showText/>
+          <Logo className="text-white " showText />
 
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-4">Your Voice Matters</h1>
@@ -105,30 +104,7 @@ const AuthLayout = ({children}: {children: React.ReactNode}) => {
       <div className="flex-1 flex items-center justify-center p-6 bg-light-white">
         <div className="w-full max-w-md">
           <div className="md:hidden mb-8">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-primary"
-              >
-                <path d="M12 2H2v10h10V2z" />
-                <path d="M12 12h10v10H12V12z" />
-                <path d="M12 22v-9.8" />
-                <path d="M12 12V2.2" />
-                <path d="M2 12h10" />
-                <path d="M12 12h10" />
-              </svg>
-              <span className="text-xl font-bold text-primary">
-                CitizenConnect
-              </span>
-            </Link>
+            <Logo className="text-primary" showText />
           </div>
 
           {children}

@@ -48,7 +48,8 @@ class CategoryValidation {
                     'string.base': 'Category description must be a string',
                     'string.max': 'Category description must not exceed 600 characters',
                 }),
-            categoryId: Joi.number().integer().positive().required()
+            categoryId: Joi.number().integer().positive().required(),
+            agencyId: Joi.number().integer().positive().optional()
 
 
         })

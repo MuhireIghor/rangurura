@@ -23,11 +23,15 @@ const AppRoutes = () => {
                 <Route path="citizen/dashboard" element={<AuthRoute allowedRoles={["CITIZEN"]} component={lazy(() => import("../app/Citizen/Dashboard"))} />} />
                 <Route path="citizen/complaints/new" element={<AuthRoute allowedRoles={["CITIZEN"]} component={lazy(() => import("../app/Citizen/Complaints/New"))} />} />
                 <Route path="citizen/complaints" element={<AuthRoute allowedRoles={["CITIZEN"]} component={lazy(() => import("../app/Citizen/Complaints"))} />} />
+                <Route path="citizen/profile" element={<AuthRoute allowedRoles={["CITIZEN"]} component={lazy(() => import("../app/Citizen/Profile"))} />} />
                 {/* ======================= END OF Citizen ROUTES ============================ */}
                 {/* ======================= Admin ROUTES ============================ */}
                 <Route path="admin/dashboard" element={<AuthRoute allowedRoles={["ADMIN","AGENCY_STAFF"]} component={lazy(() => import("../app/Admin/Dashboard"))} />} />
                 <Route path="admin/complaints" element={<AuthRoute allowedRoles={["ADMIN","AGENCY_STAFF"]} component={lazy(() => import("../app/Admin/Complaints"))} />} />
                 <Route path="admin/users" element={<AuthRoute allowedRoles={["ADMIN","AGENCY_STAFF"]} component={lazy(() => import("../app/Admin/Users"))} />} />
+                <Route path="admin/profile" element={<AuthRoute allowedRoles={["ADMIN","AGENCY_STAFF"]} component={lazy(() => import("../app/Admin/Profile"))} />} />
+                <Route path="admin/agency" element={<AuthRoute allowedRoles={["ADMIN","AGENCY_STAFF"]} component={lazy(() => import("../app/Admin/Agency"))} />} />
+                <Route path="admin/category" element={<AuthRoute allowedRoles={["ADMIN","AGENCY_STAFF"]} component={lazy(() => import("../app/Admin/Category"))} />} />
                 {/* ======================= END OF Admin ROUTES ============================ */}
                 <Route path="/*" element={<NotFound />} />
 

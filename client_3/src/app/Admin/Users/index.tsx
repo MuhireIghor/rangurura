@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AdminLayout from "../../../layouts/AdminLayout";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Table,
   Button,
   Text,
   Title,
-  Card,
   Group,
   Badge,
   ActionIcon,
@@ -26,7 +25,6 @@ import {
   Trash,
   UserPlus,
   UserCheck,
-  UserX,
   Building2,
   Mail,
   Phone,
@@ -37,6 +35,9 @@ import { notifications } from "@mantine/notifications";
 import { getAllUsers, signupAgencyUser } from "../../../redux/slices/auth";
 import AsyncSelect from "components/ui/Select";
 import { useAppDispatch } from "../../../redux/store";
+import { decodeToken } from "utils/auth";
+import { showToast } from "utils/notify";
+import ToastContainer from "components/molecules/Toast";
 
 type User = {
   id: number;
@@ -65,6 +66,7 @@ type NewUserFormValues = {
 };
 
 const UsersViewByAdmin = () => {
+  const { userId } = decodeToken();
   const dispatch = useAppDispatch();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +94,7 @@ const UsersViewByAdmin = () => {
       password: "",
       confirmPassword: "",
       position: undefined,
-      userId: 0,
+      userId,
     },
     validate: {
       name: (value) =>
@@ -134,7 +136,6 @@ const UsersViewByAdmin = () => {
         phone: values.phoneNumber,
         password: values.password,
         confirmPassword: values.password,
-        role: values.role,
         agencyId: parseInt(values.agencyId as unknown as string),
         position: values.role === "AGENCY_STAFF" ? "AGENCY_STAFF" : "CITIZEN",
         userId: parseInt(values.userId as unknown as string),
@@ -152,11 +153,11 @@ const UsersViewByAdmin = () => {
       setIsCreateModalOpen(false);
       form.reset();
     } catch (error: any) {
-      notifications.show({
-        title: "Error",
-        message: error.response?.data?.message || "Failed to create user",
-        color: "red",
-      });
+      console.error('Error creating user:', error);
+      showToast(
+        <ToastContainer title="Error" description="Failed to create user"/>,
+        "error"
+      )
     } finally {
       setIsLoading(false);
     }
@@ -165,7 +166,7 @@ const UsersViewByAdmin = () => {
   const getRoleBadge = (role: string) => {
     const roleConfig = {
       ADMIN: { color: "violet", icon: <UserCheck size={14} /> },
-      AGENCY_STAFF: { color: "blue", icon: <Building2 size={14} /> },
+      AGENCY_STAFF: { color: "green", icon: <Building2 size={14} /> },
       USER: { color: "gray", icon: <UserIcon size={14} /> },
     }[role] || { color: "gray", icon: <UserIcon size={14} /> };
 
@@ -179,17 +180,6 @@ const UsersViewByAdmin = () => {
       </Badge>
     );
   };
-
-  const getStatusBadge = (isActive: boolean) => (
-    <Badge
-      color={isActive ? "green" : "red"}
-      variant="light"
-      leftSection={isActive ? <UserCheck size={14} /> : <UserX size={14} />}
-    >
-      {isActive ? "Active" : "Inactive"}
-    </Badge>
-  );
-
   return (
     <AdminLayout>
       <Box pos="relative">
@@ -205,6 +195,7 @@ const UsersViewByAdmin = () => {
             </Text>
           </div>
           <Button
+            color="#006C4A"
             leftSection={<Plus size={18} />}
             onClick={() => setIsCreateModalOpen(true)}
           >
@@ -228,7 +219,7 @@ const UsersViewByAdmin = () => {
                 <tr key={user.id}>
                   <td>
                     <Group gap="sm">
-                      <Avatar size={40} radius="xl" color="blue">
+                      <Avatar size={40} radius="xl" color="green">
                         {user.name.charAt(0).toUpperCase()}
                       </Avatar>
                       <div>
@@ -263,7 +254,7 @@ const UsersViewByAdmin = () => {
                   </td>
                   <td>
                     <Group gap={5}>
-                      <ActionIcon color="blue" variant="light">
+                      <ActionIcon color="green" variant="light">
                         <Pencil size={16} />
                       </ActionIcon>
                       <ActionIcon color="red" variant="light">
@@ -376,6 +367,7 @@ const UsersViewByAdmin = () => {
                 Cancel
               </Button>
               <Button
+                color="#006C4A"
                 type="submit"
                 loading={isLoading}
                 leftSection={<UserPlus size={16} />}

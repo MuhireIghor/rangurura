@@ -26,7 +26,7 @@ const Footer = () => {
                 <path d="M2 12h10" />
                 <path d="M12 12h10" />
               </svg>
-              <span className="text-xl font-bold text-primary">CitizenConnect</span>
+              <span className="text-xl font-bold text-primary">Rangurura</span>
             </Link>
             <p className="text-light-gray mb-4">
               Empowering citizens to engage with their government and improve public services.
@@ -215,7 +215,7 @@ const Footer = () => {
                   <rect width="20" height="16" x="2" y="4" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
-                <span>support@citizenconnect.gov</span>
+                <span>support@Rangurura.gov</span>
               </li>
             </ul>
           </div>
@@ -223,7 +223,7 @@ const Footer = () => {
 
         <div className="mt-8 pt-6 border-t border-border-gray flex flex-col md:flex-row justify-between items-center">
           <p className="text-light-gray text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} CitizenConnect. All rights reserved.
+            &copy; {new Date().getFullYear()} Rangurura. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <Link to="#" className="text-light-gray hover:text-primary text-sm">

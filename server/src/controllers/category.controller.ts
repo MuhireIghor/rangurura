@@ -66,7 +66,7 @@ class CategoryController {
   }
   static async deleteCategory(req, res, next): Promise<any> {
     try {
-      const { categoryId } = req.params;
+      const { categoryId } = req.body;
       const deletedCategory = await CategoryService.delete(categoryId);
       categoryLogger.info(deletedCategory);
       return ResponseService.handleSuccessResponse(

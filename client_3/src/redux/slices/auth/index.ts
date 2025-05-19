@@ -12,7 +12,9 @@ const initialState = {
   error: {},
   loadingAllUsers:false,
   errorLoadingAllUsers:{},
-  allUsers:[]
+  allUsers:[],
+  loadingUserProfile:false,
+  userProfile:{}
 
 }
 
@@ -86,33 +88,32 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// export const getUserProfile = createAsyncThunk(
-//   "auth/getuserprofile",
-//   async (payload: string, { rejectWithValue }) => {
-//     try {
-//       const { body, status, message } = (await authService.getUserProfile(payload)) as unknown as any;
-//       if (status == 200) {
-//         const response = {
-//           firstName: body.data.firstname,
-//           lastName: body.data.lastname,
-//           email: body.data.email,
-//           phoneNumber: body.data.phoneNumber,
-//           role: body.data.role,
-//         }
-//         return response;
-//       }
-//       else {
-//         return rejectWithValue((message || "Something went wrong") as unknown as any);
-//       }
+export const getUserProfile = createAsyncThunk(
+  "auth/getuserprofile",
+  async (payload: string, { rejectWithValue }) => {
+    try {
+      const { body, status, message } = (await authService.getUserProfile(payload)) as unknown as any;
+      if (status == 200) {
+        const response = {
+          name: body.data.name ?? "",
+          email: body.data.email,
+          phoneNumber: body.data.phone,
+          role: body.data.role,
+        }
+        return response;
+      }
+      else {
+        return rejectWithValue((message || "Something went wrong") as unknown as any);
+      }
 
 
-//     }
-//     catch (error) {
-//       return rejectWithValue((error as unknown as any).message);
-//     }
+    }
+    catch (error) {
+      return rejectWithValue((error as unknown as any).message);
+    }
 
-//   }
-// )
+  }
+)
 
 export const getAllUsers = createAsyncThunk(
     "auth/getAllUsers",
@@ -196,21 +197,21 @@ const authSlice = createSlice({
         state.errorLoadingAllUsers = action.payload!;
       })
 
-      // .addCase(getUserProfile.pending, (state) => {
-      //   state.isLoading = true;
-      //   state.status = "loading";
-      //   state.profile = {};
-      // })
-      // .addCase(getUserProfile.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.status = "error";
-      //   state.error = action.payload!;
-      // })
-      // .addCase(getUserProfile.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.status = "success";
-      //   state.profile = action.payload!;
-      // })
+      .addCase(getUserProfile.pending, (state) => {
+        state.isLoading = true;
+        state.status = "loading";
+        state.profile = {};
+      })
+      .addCase(getUserProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.status = "error";
+        state.error = action.payload!;
+      })
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.status = "success";
+        state.profile = action.payload!;
+      })
 
   }
 

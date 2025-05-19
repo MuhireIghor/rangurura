@@ -15,5 +15,13 @@ router.get("/:agencyId",
     paramValidationMiddleware(AgencyValidation.validateAgencyIdParam),
     AgencyController.getAgencyById
 )
-
+router.put("/:agencyId",
+    paramValidationMiddleware(AgencyValidation.validateAgencyIdParam),
+    validationMiddleware(AgencyValidation.validateUpdateAgencyPaload),
+    AgencyController.updateAgency
+)
+router.delete("/:agencyId",
+    paramValidationMiddleware(AgencyValidation.validateAgencyIdParam),
+    AgencyController.deleteAgencyById
+)
 export default router;

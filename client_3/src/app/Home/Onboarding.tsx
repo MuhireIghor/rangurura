@@ -17,10 +17,10 @@ const Onboarding = () => {
       <section className="bg-white py-12 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">How CitizenConnect Works</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">How Rangurura Works</h1>
             <p className="text-lg text-light-gray mb-8">
               Our platform connects citizens with government agencies to efficiently resolve public service issues.
-              Learn how to use CitizenConnect to make your voice heard.
+              Learn how to use Rangurura to make your voice heard.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -94,7 +94,7 @@ const Onboarding = () => {
             <div className="md:w-1/2 mb-10 md:mb-0 md:pr-10">
               <h2 className="text-3xl font-bold text-black mb-6">For Citizens</h2>
               <p className="text-light-gray mb-6">
-                As a citizen, you can use CitizenConnect to report issues with public services, track the status of your
+                As a citizen, you can use Rangurura to report issues with public services, track the status of your
                 complaints, and provide feedback on resolutions.
               </p>
 
@@ -149,7 +149,7 @@ const Onboarding = () => {
             <div className="md:w-1/2 md:pl-10 order-1 md:order-2">
               <h2 className="text-3xl font-bold text-black mb-6">For Government Staff</h2>
               <p className="text-light-gray mb-6">
-                Government staff can use CitizenConnect to efficiently manage citizen complaints, assign them to the
+                Government staff can use Rangurura to efficiently manage citizen complaints, assign them to the
                 appropriate departments, and track resolution progress.
               </p>
 
@@ -187,7 +187,7 @@ const Onboarding = () => {
       <section className="bg-white py-12 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-black mb-4">Benefits of CitizenConnect</h2>
+            <h2 className="text-3xl font-bold text-black mb-4">Benefits of Rangurura</h2>
             <p className="text-light-gray max-w-2xl mx-auto">
               Our platform offers numerous advantages for both citizens and government agencies.
             </p>
@@ -232,7 +232,7 @@ const Onboarding = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-black mb-4">Frequently Asked Questions</h2>
             <p className="text-light-gray max-w-2xl mx-auto">
-              Find answers to common questions about using CitizenConnect.
+              Find answers to common questions about using Rangurura.
             </p>
           </div>
 
@@ -280,7 +280,7 @@ const Onboarding = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">Ready to Get Started?</h2>
           <p className="text-white/90 max-w-2xl mx-auto mb-8">
-            Join CitizenConnect today and help improve public services in your community.
+            Join Rangurura today and help improve public services in your community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

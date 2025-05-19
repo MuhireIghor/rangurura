@@ -19,6 +19,9 @@ export class CategoryService {
     return await prisma.category.findMany({
       where: agencyId ? { agencyId } : {},
       orderBy: { createdAt: 'desc' },
+      include:{
+        agency:true
+      }
     });
   }
 
@@ -56,4 +59,5 @@ export class CategoryService {
 
     return await prisma.category.delete({ where: { id } });
   }
+  
 }

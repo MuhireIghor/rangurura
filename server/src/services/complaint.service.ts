@@ -58,6 +58,13 @@ export class ComplaintService {
     return prisma.complaint.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
+      include:{
+        responses:{
+          include:{
+            user:true
+          }
+        }
+      }
     });
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
@@ -6,7 +7,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../redux/store";
-import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { LoginDto } from "../../types/request/user.dto";
 import { loginUser } from "../../redux/slices/auth";
 import AuthLayout from "../../layouts/AuthLayout";
@@ -18,9 +19,8 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useSelector(({ auth }: { auth: any }) => ({
+  const { isLoading } = useSelector(({ auth }: { auth: any }) => ({
     isLoading: auth.isLoading,
-    error: auth.error,
   }));
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -108,5 +108,19 @@ class UserValidation {
 
 
     }
+
+    static validateGetUserProfilePayload(body:string){
+        const schema = Joi.object({
+            email: Joi.string()
+                .email()
+                .required()
+                .label('Email')
+                .messages({
+                    'any.required': 'Email is required',
+                    'string.email': 'Please provide a valid email address',
+                }),
+        });
+        return schema.validate(body, Utils.joiDefaultOptions());
+    }
 }
 export default UserValidation;

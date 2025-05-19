@@ -51,6 +51,38 @@ class AgencyController {
       next(error);
     }
   }
+
+  static async deleteAgencyById(req, res, next): Promise<any> {
+    try {
+      const { agencyId } = req.body;
+      const agency = await AgencyService.deleteAgencyById(agencyId);
+      agencyLogger.info(agency);
+      return ResponseService.handleSuccessResponse(
+        httpStatus.OK,
+        "Successfully Deleted Agency",
+        agency,
+        res
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateAgency(req, res, next): Promise<any> {
+    try {
+      const { agencyId,...payload } = req.body;
+      const agency = await AgencyService.updateAgency(agencyId,payload);
+      agencyLogger.info(agency);
+      return ResponseService.handleSuccessResponse(
+        httpStatus.OK,
+        "Successfully Updated Agency",
+        agency,
+        res
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default AgencyController;

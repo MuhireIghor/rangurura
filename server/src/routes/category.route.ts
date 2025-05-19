@@ -20,5 +20,8 @@ router.put("/:categoryId",
     validationMiddleware(CategoryValidation.validateUpdateCategory),
     CategoryController.updateCategory
 )
-
+router.delete("/:categoryId",
+    paramValidationMiddleware(CategoryValidation.validateCategoryIdParam),
+    CategoryController.deleteCategory
+)
 export default router;

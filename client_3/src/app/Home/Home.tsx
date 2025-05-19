@@ -57,7 +57,7 @@ const Home = () => {
       <section className="bg-light-white py-12 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-black mb-4">How CitizenConnect Works</h2>
+            <h2 className="text-3xl font-bold text-black mb-4">How Rangurura Works</h2>
             <p className="text-light-gray max-w-2xl mx-auto">
               Our platform streamlines the process of submitting and resolving citizen complaints through a simple,
               transparent workflow.
@@ -177,13 +177,13 @@ const Home = () => {
                 name: "Michael Chen",
                 role: "Community Leader",
                 quote:
-                  "As a community organizer, I've used CitizenConnect to report multiple issues in our neighborhood. The response time has improved dramatically.",
+                  "As a community organizer, I've used Rangurura to report multiple issues in our neighborhood. The response time has improved dramatically.",
               },
               {
                 name: "Aisha Patel",
                 role: "Small Business Owner",
                 quote:
-                  "The water supply in our area was inconsistent for years. After submitting a complaint through CitizenConnect, the issue was escalated and finally resolved.",
+                  "The water supply in our area was inconsistent for years. After submitting a complaint through Rangurura, the issue was escalated and finally resolved.",
               },
             ].map((testimonial, index) => (
               <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-border-gray">
