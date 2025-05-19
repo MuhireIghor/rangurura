@@ -52,7 +52,10 @@ class Utils {
    * @param  {String} key
    * @returns {String}  originalstring
    */
-  static decypherString(encryptedString, key = process.env.PAYLOAD_CYPHER_SECRET_KEY) {
+  static decypherString(
+    encryptedString,
+    key = process.env.PAYLOAD_CYPHER_SECRET_KEY
+  ) {
     const bytes = CryptoJS.AES.decrypt(encryptedString, key);
     const originalText = bytes.toString(CryptoJS.enc.Utf8);
     return originalText;
@@ -69,6 +72,16 @@ class Utils {
     } catch (error) {
       throw new Error("Failed parsing enrypted string as JSON");
     }
+  }
+  /**
+   * @param  {Object} obj
+   * @param  {String} key
+   * @returns {String} string
+   */
+  static cypherObject(obj, key = process.env.PAYLOAD_CYPHER_SECRET_KEY) {
+    const string = JSON.stringify(obj);
+    const cipheredtext = CryptoJS.AES.encrypt(string, key).toString();
+    return cipheredtext;
   }
 }
 export default Utils;
